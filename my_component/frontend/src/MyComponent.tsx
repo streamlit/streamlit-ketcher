@@ -2,8 +2,12 @@ import {
   Streamlit,
   StreamlitComponentBase,
   withStreamlitConnection,
-} from "streamlit-component-lib"
+} from "./streamlit_component_lib"
 import React, { ReactElement } from "react"
+import { Editor as KetcherEditor } from 'ketcher-react'
+import { StandaloneStructServiceProvider } from 'ketcher-standalone'
+
+const structServiceProvider = new StandaloneStructServiceProvider()
 
 interface State {
   numClicks: number
@@ -47,6 +51,12 @@ class MyComponent extends StreamlitComponentBase<State> {
     return (
       <span>
         Hello, {name}! &nbsp;
+
+        <KetcherEditor
+          staticResourcesUrl={process.env.PUBLIC_URL}
+          structServiceProvider={structServiceProvider}
+          errorHandler={console.error.bind(console)}
+        />
         <button
           style={style}
           onClick={this.onClicked}
