@@ -1,9 +1,12 @@
 from pathlib import Path
+
 import streamlit.components.v1 as components
+
+__version__ = '0.0.1'
 
 # Create a _RELEASE constant. We'll set this to False while we're developing
 # the component, and True when we're ready to package and distribute it.
-_RELEASE = False
+_RELEASE = True
 
 if not _RELEASE:
     _render_component = components.declare_component(
@@ -12,7 +15,7 @@ if not _RELEASE:
     )
 else:
     build_dir = Path(__file__).parent / "frontend" / "build"
-    _render_component = components.declare_component("streamlit_ketcher", path=build_dir)
+    _render_component = components.declare_component("streamlit_ketcher", path=str(build_dir))
 
 
 def st_ketcher(molecule, key=None):

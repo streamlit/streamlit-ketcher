@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_ketcher import st_ketcher
 
 st.set_page_config(layout="wide")
 st.subheader("Component with constant args")

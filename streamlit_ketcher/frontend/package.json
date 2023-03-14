@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "PUBLIC_URL=/component/streamlit_ketcher.streamlit_ketcher/ react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
