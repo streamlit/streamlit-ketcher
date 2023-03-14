@@ -11,3 +11,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.streamlit-button {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  font-weight: 400;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  margin: 0px;
+  line-height: 1.6;
+  color: inherit;
+  width: auto;
+  user-select: none;
+  background-color: rgb(255, 255, 255);
+
+  /*border: 1px solid var(--primary-color);*/
+  /*outline: 1px solid var(--primary-color);*/
+  appearance: button;
+  font-family: "Source Sans Pro", sans-serif;
+  border: 1px solid rgba(49, 51, 63, 0.2);
+}
+.streamlit-button:hover {
+  border-color: rgb(255, 75, 75);
+  color: rgb(255, 75, 75);
+}
+
+/*.streamlit-button:focus {*/
+/*  border: 1px solid var(--secondary-color);*/
+/*  outline: 1px solid var(--secondary-color);*/
+/*}*/

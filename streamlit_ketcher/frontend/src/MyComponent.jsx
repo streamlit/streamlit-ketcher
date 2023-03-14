@@ -6,6 +6,7 @@ import 'ketcher-react/dist/index.css'
 
 const structServiceProvider = new StandaloneStructServiceProvider()
 
+
 class MyComponent extends StreamlitComponentBase {
     constructor(props) {
         super(props);
@@ -44,13 +45,21 @@ class MyComponent extends StreamlitComponentBase {
                 });
             }}/>
 
-        let push = <button onClick={() => this.onReset()} disabled={!this.state.ketcher}>Reset</button>;
-        let load = <button onClick={() => this.onApply()} disabled={!this.state.ketcher}>Apply</button>;
+        const {theme} = this.props
+        const style = {}
+
+        if (theme) {
+            style['--primary-color'] = theme.primaryColor
+            style['--secondary-color'] = "gray"
+        }
+
+        let push = <button className={'streamlit-button'} style={style} onClick={() => this.onReset()} disabled={!this.state.ketcher}>Reset</button>;
+        let load = <button className={'streamlit-button'} style={style} onClick={() => this.onApply()} disabled={!this.state.ketcher}>Apply</button>;
 
         return (
             <div ref={this.resizeElement}>
                 {editor}
-                <div style={{display: "flex", justifyContent: 'space-between'}}>{load}{push}</div>
+                <div style={{display: "flex", justifyContent: 'space-between', padding: '15px 0'}}>{load}{push}</div>
             </div>
         );
     }

@@ -6,7 +6,7 @@ __version__ = '0.0.1'
 
 # Create a _RELEASE constant. We'll set this to False while we're developing
 # the component, and True when we're ready to package and distribute it.
-_RELEASE = True
+_RELEASE = TRUE
 
 if not _RELEASE:
     _render_component = components.declare_component(
