@@ -2,3 +2,4 @@ venv/
 .idea/
 .node_modules/
 node_modules/
+my_component/frontend/build

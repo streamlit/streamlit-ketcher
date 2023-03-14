@@ -27,7 +27,7 @@ if not _RELEASE:
         # Pass `url` here to tell Streamlit that the component will be served
         # by the local dev server that you run via `npm run start`.
         # (This is useful while your component is in development.)
-        url="http://localhost:3001",
+        url="http://localhost:3000",
     )
 else:
     # When we're distributing a production version of the component, we'll
@@ -43,14 +43,13 @@ else:
 # `declare_component` and call it done. The wrapper allows us to customize
 # our component's API: we can pre-process its input args, post-process its
 # output value, and add a docstring for users.
-def my_component(name, key=None):
+def ketcher(molecule, key=None):
     """Create a new instance of "my_component".
 
     Parameters
     ----------
-    name: str
-        The name of the thing we're saying hello to. The component will display
-        the text "Hello, {name}!"
+    molecule: str
+        # TODO: Update docstring
     key: str or None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
@@ -70,7 +69,7 @@ def my_component(name, key=None):
     #
     # "default" is a special argument that specifies the initial return
     # value of the component before the user has interacted with it.
-    component_value = _component_func(name=name, key=key, default=0)
+    component_value = _component_func(molecule=molecule, key=key, default=None)
 
     # We could modify the value returned from the component if we wanted.
     # There's no need to do this in our simple example - but it's an option.
@@ -83,9 +82,10 @@ def my_component(name, key=None):
 if not _RELEASE:
     import streamlit as st
 
+    st.set_page_config(layout="wide")
     st.subheader("Component with constant args")
 
-    # Create an instance of our component with a constant `name` arg, and
-    # print its output value.
-    smile_code = my_component("World")
+    molecule = st.text_input("Molecule", "CCO")
+    smile_code = ketcher(molecule)
     st.markdown("Smile code: %s" % smile_code)
+
