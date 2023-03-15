@@ -1,5 +1,5 @@
 import {Streamlit, withStreamlitConnection,} from "streamlit-component-lib";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {Editor as KetcherEditor} from 'ketcher-react'
 import {StandaloneStructServiceProvider} from 'ketcher-standalone'
 import 'ketcher-react/dist/index.css'
@@ -61,6 +61,12 @@ const Button = styled.button(
 
 const ButtonContainer = styled.div(() => ({display: "flex", justifyContent: 'space-between', padding: '1rem 0'}))
 
+const KetcherEditorWrapper = styled.div((props) => ({height: `${props.height}px`}))
+
+KetcherEditorWrapper.defaultProps = {
+    height: '500'
+};
+
 const MyComponent = function (props) {
     const editorRef = useRef(null)
     const [ketcher, setKetcher] = useState(null)
@@ -90,11 +96,14 @@ const MyComponent = function (props) {
 
     return (
         <div ref={editorRef}>
-            <KetcherEditor
-                staticResourcesUrl={process.env.PUBLIC_URL}
-                structServiceProvider={structServiceProvider}
-                errorHandler={console.error.bind(console)}
-                onInit={handleKetcherInit}/>
+            <KetcherEditorWrapper height={props.args['height']}>
+                <KetcherEditor
+                    staticResourcesUrl={process.env.PUBLIC_URL}
+                    structServiceProvider={structServiceProvider}
+                    errorHandler={console.error.bind(console)}
+                    onInit={handleKetcherInit}/>
+            </KetcherEditorWrapper>
+
             <ButtonContainer>
                 <Button theme={theme} onClick={handleApply}
                         disabled={!ketcher}>Apply

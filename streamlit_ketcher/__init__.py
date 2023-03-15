@@ -18,13 +18,15 @@ else:
     _render_component = components.declare_component("streamlit_ketcher", path=str(build_dir))
 
 
-def st_ketcher(molecule, key=None):
+def st_ketcher(molecule, *, height=500, key=None):
     """Create a new instance of "my_component".
 
     Parameters
     ----------
     molecule: str
         # TODO: Update docstring
+    height: int
+        The height of the component expressed in pixels.
     key: str or None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
@@ -38,4 +40,4 @@ def st_ketcher(molecule, key=None):
         frontend.)
 
     """
-    return _render_component(molecule=molecule, key=key, default=molecule)
+    return _render_component(molecule=molecule, height=height, key=key, default=molecule)
