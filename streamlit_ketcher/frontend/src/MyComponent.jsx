@@ -16,6 +16,11 @@ KetcherEditorWrapper.defaultProps = {
     height: '500'
 };
 
+const StreamlitKetcherEditor = ({height, ...rest}) =>
+    <KetcherEditorWrapper height={height}>
+        <KetcherEditor {...rest}/>
+    </KetcherEditorWrapper>
+
 const MyComponent = function (props) {
     const editorRef = useRef(null)
     const [ketcher, setKetcher] = useState(null)
@@ -45,14 +50,13 @@ const MyComponent = function (props) {
 
     return (
         <div ref={editorRef}>
-            <KetcherEditorWrapper height={props.args['height']}>
-                <KetcherEditor
-                    staticResourcesUrl={process.env.PUBLIC_URL}
-                    structServiceProvider={structServiceProvider}
-                    errorHandler={console.error.bind(console)}
-                    onInit={handleKetcherInit}/>
-            </KetcherEditorWrapper>
-
+            <StreamlitKetcherEditor
+                height={props.args['height']}
+                staticResourcesUrl={process.env.PUBLIC_URL}
+                structServiceProvider={structServiceProvider}
+                errorHandler={console.error.bind(console)}
+                onInit={handleKetcherInit}
+            />
             <ButtonContainer>
                 <Button theme={theme} onClick={handleApply}
                         disabled={!ketcher}>Apply
