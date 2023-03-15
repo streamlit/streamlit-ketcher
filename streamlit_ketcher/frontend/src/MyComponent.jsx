@@ -4,9 +4,62 @@ import {Editor as KetcherEditor} from 'ketcher-react'
 import {StandaloneStructServiceProvider} from 'ketcher-standalone'
 import 'ketcher-react/dist/index.css'
 import useResizeObserver from "@react-hook/resize-observer";
+import styled from '@emotion/styled'
+import {transparentize} from "color2k";
 
 const structServiceProvider = new StandaloneStructServiceProvider()
 
+
+const Button = styled.button(
+    ({theme}) => ({
+        // StyledBaseButton styles
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        // fontWeight: theme.fontWeights.normal,
+        fontWeight: 400,
+        // padding: `${theme.spacing.xs} ${theme.spacing.md}`,
+        padding: '0.25rem 0.75rem',
+        // borderRadius: theme.radii.md,
+        borderRadius: '0.25rem',
+        margin: 0,
+        // lineHeight: theme.lineHeights.base,
+        lineHeight: 1.6,
+        color: "inherit",
+        // width: fluidWidth ? "100%" : "auto",
+        width: 'auto',
+        userSelect: "none",
+        "&:focus": {
+            boxShadow: `0 0 0 0.2rem ${transparentize(theme.primaryColor, 0.5)}`,
+            outline: "none",
+        },
+
+        // StyledSecondaryButton styles
+        backgroundColor: theme.lightenedBg05,
+        border: `1px solid ${theme.fadedText10}`,
+        "&:hover": {
+            borderColor: theme.primaryColor,
+            color: theme.primaryColor,
+        },
+        "&:active": {
+            color: 'white',
+            borderColor: theme.primaryColor,
+            backgroundColor: theme.primaryColor,
+        },
+        "&:focus:not(:active)": {
+            borderColor: theme.primaryColor,
+            color: theme.primaryColor,
+        },
+        "&:disabled, &:disabled:hover, &:disabled:active": {
+            borderColor: theme.fadedText10,
+            backgroundColor: 'transparent',
+            color: theme.fadedText40,
+            cursor: "not-allowed",
+        },
+    })
+)
+
+const ButtonContainer = styled.div(() => ({display: "flex", justifyContent: 'space-between', padding: '1rem 0'}))
 
 const MyComponent = function (props) {
     const editorRef = useRef(null)
@@ -17,12 +70,6 @@ const MyComponent = function (props) {
     useResizeObserver(editorRef, (entry) => Streamlit.setFrameHeight())
 
     const {theme} = props
-    const style = {}
-
-    if (theme) {
-        style['--primary-color'] = theme.primaryColor
-        style['--secondary-color'] = "gray"
-    }
 
     const handleReset = useCallback(async () => {
         await ketcher.setMolecule(molecule)
@@ -48,14 +95,14 @@ const MyComponent = function (props) {
                 structServiceProvider={structServiceProvider}
                 errorHandler={console.error.bind(console)}
                 onInit={handleKetcherInit}/>
-            <div style={{display: "flex", justifyContent: 'space-between', padding: '15px 0'}}>
-                <button className={'streamlit-button'} style={style} onClick={handleApply}
+            <ButtonContainer>
+                <Button theme={theme} onClick={handleApply}
                         disabled={!ketcher}>Apply
-                </button>
-                <button className={'streamlit-button'} style={style} onClick={handleReset}
+                </Button>
+                <Button theme={theme} onClick={handleReset}
                         disabled={!ketcher}>Reset
-                </button>
-            </div>
+                </Button>
+            </ButtonContainer>
         </div>
     );
 }
