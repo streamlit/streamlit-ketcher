@@ -1,79 +1,63 @@
-import {Streamlit, StreamlitComponentBase, withStreamlitConnection,} from "streamlit-component-lib";
-import React, {createRef} from "react";
+import {Streamlit, withStreamlitConnection,} from "streamlit-component-lib";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Editor as KetcherEditor} from 'ketcher-react'
 import {StandaloneStructServiceProvider} from 'ketcher-standalone'
 import 'ketcher-react/dist/index.css'
+import useResizeObserver from "@react-hook/resize-observer";
 
 const structServiceProvider = new StandaloneStructServiceProvider()
 
 
-class MyComponent extends StreamlitComponentBase {
-    constructor(props) {
-        super(props);
-        this.state = {ketcher: undefined, molecule: this.props.args["molecule"]};
-        this.resizeObserver = null;
-        this.resizeElement = createRef();
-        Streamlit.setComponentValue(this.state.molecule);
+const MyComponent = function (props) {
+    const editorRef = useRef(null)
+    const [ketcher, setKetcher] = useState(null)
+    const [molecule, setMolecule] = useState(props.args["molecule"])
+
+    useEffect(() => Streamlit.setFrameHeight())
+    useResizeObserver(editorRef, (entry) => Streamlit.setFrameHeight())
+
+    const {theme} = props
+    const style = {}
+
+    if (theme) {
+        style['--primary-color'] = theme.primaryColor
+        style['--secondary-color'] = "gray"
     }
 
-    componentDidMount() {
-        this.resizeObserver = new ResizeObserver((entries) => {
-            Streamlit.setFrameHeight();
-        });
+    const handleReset = useCallback(async () => {
+        await ketcher.setMolecule(molecule)
+    }, [ketcher, molecule])
 
-        this.resizeObserver.observe(this.resizeElement.current);
-    }
+    const handleApply = useCallback(async () => {
+        const smile = await ketcher.getSmiles();
+        setMolecule(smile);
+        Streamlit.setComponentValue(smile);
+    }, [ketcher])
 
-    componentWillUnmount() {
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
+    const handleKetcherInit = useCallback((ketcher) => {
+        setKetcher(ketcher);
+        if (molecule) {
+            ketcher.setMolecule(molecule)
         }
-    }
+    }, [molecule])
 
-    render() {
-        const molecule = this.state.molecule;
-
-        const editor = <KetcherEditor
-            staticResourcesUrl={process.env.PUBLIC_URL}
-            structServiceProvider={structServiceProvider}
-            errorHandler={console.error.bind(console)}
-            onInit={(ketcher) => {
-                this.setState({ketcher}, () => {
-                    if(molecule) {
-                        this.state.ketcher.setMolecule(molecule);
-                    }
-                });
-            }}/>
-
-        const {theme} = this.props
-        const style = {}
-
-        if (theme) {
-            style['--primary-color'] = theme.primaryColor
-            style['--secondary-color'] = "gray"
-        }
-
-        let push = <button className={'streamlit-button'} style={style} onClick={() => this.onReset()} disabled={!this.state.ketcher}>Reset</button>;
-        let load = <button className={'streamlit-button'} style={style} onClick={() => this.onApply()} disabled={!this.state.ketcher}>Apply</button>;
-
-        return (
-            <div ref={this.resizeElement}>
-                {editor}
-                <div style={{display: "flex", justifyContent: 'space-between', padding: '15px 0'}}>{load}{push}</div>
+    return (
+        <div ref={editorRef}>
+            <KetcherEditor
+                staticResourcesUrl={process.env.PUBLIC_URL}
+                structServiceProvider={structServiceProvider}
+                errorHandler={console.error.bind(console)}
+                onInit={handleKetcherInit}/>
+            <div style={{display: "flex", justifyContent: 'space-between', padding: '15px 0'}}>
+                <button className={'streamlit-button'} style={style} onClick={handleApply}
+                        disabled={!ketcher}>Apply
+                </button>
+                <button className={'streamlit-button'} style={style} onClick={handleReset}
+                        disabled={!ketcher}>Reset
+                </button>
             </div>
-        );
-    }
-
-    async onApply() {
-        const smile = await this.state.ketcher.getSmiles();
-        this.setState({molecule: smile}, () => {
-            Streamlit.setComponentValue(this.state.molecule);
-        })
-    }
-
-    async onReset() {
-        await this.state.ketcher.setMolecule(this.state.molecule)
-    }
+        </div>
+    );
 }
 
 // "withStreamlitConnection" is a wrapper function. It bootstraps the
