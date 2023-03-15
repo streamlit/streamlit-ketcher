@@ -16,6 +16,7 @@ def run_verbose(cmd_args, *args, **kwargs):
 
 
 def cmd_py_distribute(args):
+    run_verbose(['pip', 'install', 'wheel'], cwd=THIS_DIRECTORY)
     run_verbose(['python', 'setup.py', 'bdist_wheel', '--universal', 'sdist'], cwd=THIS_DIRECTORY)
 
 
