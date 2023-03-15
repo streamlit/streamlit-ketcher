@@ -1,25 +1,12 @@
 import {Streamlit, withStreamlitConnection,} from "streamlit-component-lib";
-import {useCallback, useEffect, useRef, useState} from "react";
-import {Editor as KetcherEditor} from 'ketcher-react'
-import {StandaloneStructServiceProvider} from 'ketcher-standalone'
+import React, {Suspense, useCallback, useEffect, useRef, useState} from "react";
 import 'ketcher-react/dist/index.css'
 import useResizeObserver from "@react-hook/resize-observer";
-import styled from '@emotion/styled'
 import {Button, ButtonContainer} from "./Button";
+import {LoadingPlaceholder} from "./LoadingPlaceholder";
 
-const structServiceProvider = new StandaloneStructServiceProvider()
+const StreamlitKetcherEditor = React.lazy(() => import('./StreamlitKetcherEditor'));
 
-
-const KetcherEditorWrapper = styled.div((props) => ({height: `${props.height}px`}))
-
-KetcherEditorWrapper.defaultProps = {
-    height: '500'
-};
-
-const StreamlitKetcherEditor = ({height, ...rest}) =>
-    <KetcherEditorWrapper height={height}>
-        <KetcherEditor {...rest}/>
-    </KetcherEditorWrapper>
 
 const MyComponent = function (props) {
     const editorRef = useRef(null)
@@ -50,13 +37,13 @@ const MyComponent = function (props) {
 
     return (
         <div ref={editorRef}>
-            <StreamlitKetcherEditor
-                height={props.args['height']}
-                staticResourcesUrl={process.env.PUBLIC_URL}
-                structServiceProvider={structServiceProvider}
-                errorHandler={console.error.bind(console)}
-                onInit={handleKetcherInit}
-            />
+            <Suspense fallback={<LoadingPlaceholder height={props.args['height']}>Loading...</LoadingPlaceholder>}>
+                <StreamlitKetcherEditor
+                    height={props.args['height']}
+                    errorHandler={console.error.bind(console)}
+                    onInit={handleKetcherInit}
+                />
+            </Suspense>
             <ButtonContainer>
                 <Button theme={theme} onClick={handleApply}
                         disabled={!ketcher}>Apply
