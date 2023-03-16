@@ -18,6 +18,7 @@
     "ketcher-core": "^2.7.2",
     "ketcher-react": "^2.7.2",
     "ketcher-standalone": "^2.7.2",
+    "prettier": "^2.8.4",
     "react": "^17.0.2",
     "react-app-polyfill": "^3.0.0",
     "react-dom": "^17.0.2",
@@ -32,7 +33,9 @@
     "start": "react-scripts start",
     "build": "PUBLIC_URL=./ react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "prettier 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "eslintConfig": {
     "extends": [

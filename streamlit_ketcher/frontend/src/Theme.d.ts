@@ -1,4 +1,4 @@
-import {Theme} from "streamlit-component-lib";
+import { Theme } from "streamlit-component-lib";
 
 // streamlit-component-lib miss some fields
 interface FixedTheme extends Theme {

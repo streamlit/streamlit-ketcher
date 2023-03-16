@@ -15,20 +15,29 @@ jobs:
       PYTHON_VERSION: "3.10"
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
+
     - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ env.PYTHON_VERSION }}
+
     - name: Set up Node
       uses: actions/setup-node@v3
       with:
         cache: 'yarn'
         node-version-file: '.nvmrc'
         cache-dependency-path: streamlit_ketcher/frontend/yarn.lock
+
+    - name: Lint javascript code
+      run: yarn lint
+      working-directory: streamlit_ketcher/frontend/
+
     - name: Build package
       run: |
         ./dev.py package
+
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
