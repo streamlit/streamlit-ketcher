@@ -26,17 +26,19 @@ const MyComponent = function (props: MyComponentsProps) {
   const theme: FixedTheme = props.theme as unknown as FixedTheme;
 
   const handleReset = useCallback(async () => {
-    if (ketcher) {
-      await ketcher.setMolecule(molecule);
+    if (!ketcher) {
+      return;
     }
-  }, [ketcher, molecule]);
+    await ketcher.setMolecule("");
+  }, [ketcher]);
 
   const handleApply = useCallback(async () => {
-    if (ketcher) {
-      const smile = await ketcher.getSmiles();
-      setMolecule(smile);
-      Streamlit.setComponentValue(smile);
+    if (!ketcher) {
+      return;
     }
+    const smile = await ketcher.getSmiles();
+    setMolecule(smile);
+    Streamlit.setComponentValue(smile);
   }, [ketcher]);
 
   const handleKetcherInit = useCallback(
