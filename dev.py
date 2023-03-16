@@ -21,8 +21,8 @@ def cmd_py_distribute(args):
 
 
 def cmd_js_build(args):
-    run_verbose(['yarn', 'install'], cwd=THIS_DIRECTORY / "streamlit_ketcher" / "frontend")
-    run_verbose(['yarn', 'build'], cwd=THIS_DIRECTORY / "streamlit_ketcher" / "frontend")
+    run_verbose(['yarn', 'install'], cwd=THIS_DIRECTORY / "frontend")
+    run_verbose(['yarn', 'build'], cwd=THIS_DIRECTORY / "frontend")
 
 
 def cmd_package(args):
