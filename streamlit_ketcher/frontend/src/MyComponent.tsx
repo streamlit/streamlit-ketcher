@@ -65,11 +65,11 @@ const MyComponent = function (props: MyComponentsProps) {
         />
       </Suspense>
       <ButtonContainer>
-        <Button theme={theme!} onClick={handleApply} disabled={!ketcher}>
-          Apply
-        </Button>
         <Button theme={theme!} onClick={handleReset} disabled={!ketcher}>
           Reset
+        </Button>
+        <Button theme={theme!} onClick={handleApply} disabled={!ketcher}>
+          Apply
         </Button>
       </ButtonContainer>
     </div>
