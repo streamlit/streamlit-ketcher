@@ -13,10 +13,14 @@ const StreamlitKetcherEditor = React.lazy(
   () => import("./StreamlitKetcherEditor")
 );
 
+const FORMAT_SMILES = "SMILES";
+const FORMAT_MOLFILE = "MOLFILE";
+
 interface MyComponentsProps extends ComponentProps {
   args: {
     molecule: string;
     height: number;
+    format: typeof FORMAT_SMILES | typeof FORMAT_MOLFILE;
   };
 }
 
@@ -24,6 +28,7 @@ const MyComponent = function (props: MyComponentsProps) {
   const editorRef = useRef(null);
   const [ketcher, setKetcher] = useState<Ketcher | null>(null);
   const [molecule, setMolecule] = useState<string>(props.args["molecule"]);
+  const format = props.args["format"];
 
   useEffect(() => Streamlit.setFrameHeight());
   useResizeObserver(editorRef, (entry) => Streamlit.setFrameHeight());
@@ -41,10 +46,13 @@ const MyComponent = function (props: MyComponentsProps) {
     if (!ketcher) {
       return;
     }
-    const smile = await ketcher.getSmiles();
+    const smile =
+      format === FORMAT_SMILES
+        ? await ketcher.getSmiles()
+        : await ketcher.getMolfile();
     setMolecule(smile);
     Streamlit.setComponentValue(smile);
-  }, [ketcher]);
+  }, [ketcher, format]);
 
   const handleKetcherInit = useCallback(
     (ketcher: Ketcher) => {
