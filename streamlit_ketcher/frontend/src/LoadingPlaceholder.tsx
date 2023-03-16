@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 
-export const LoadingPlaceholder = styled.div((props) => ({
+interface LoadingPlaceholderProps {
+    height: number
+}
+
+export const LoadingPlaceholder = styled.div<LoadingPlaceholderProps>((props) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

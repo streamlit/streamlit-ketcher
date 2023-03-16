@@ -1,34 +1,44 @@
 import {Streamlit, withStreamlitConnection,} from "streamlit-component-lib";
-import React, {Suspense, useCallback, useEffect, useRef, useState} from "react";
+import * as React from "react"
+import {Suspense, useCallback, useEffect, useRef, useState} from "react";
 import 'ketcher-react/dist/index.css'
 import useResizeObserver from "@react-hook/resize-observer";
 import {Button, ButtonContainer} from "./Button";
 import {LoadingPlaceholder} from "./LoadingPlaceholder";
+import {ComponentProps} from "streamlit-component-lib/dist/StreamlitReact";
+import { Ketcher } from "ketcher-core";
+import {FixedTheme} from "./Theme";
 
 const StreamlitKetcherEditor = React.lazy(() => import('./StreamlitKetcherEditor'));
 
+interface MyComponentsProps extends ComponentProps {
+}
 
-const MyComponent = function (props) {
+const MyComponent = function (props: MyComponentsProps) {
     const editorRef = useRef(null)
-    const [ketcher, setKetcher] = useState(null)
-    const [molecule, setMolecule] = useState(props.args["molecule"])
+    const [ketcher, setKetcher] = useState<Ketcher | null>(null)
+    const [molecule, setMolecule] = useState<string>(props.args["molecule"])
 
     useEffect(() => Streamlit.setFrameHeight())
     useResizeObserver(editorRef, (entry) => Streamlit.setFrameHeight())
 
-    const {theme} = props
+    const theme: FixedTheme = props.theme as unknown as FixedTheme;
 
     const handleReset = useCallback(async () => {
-        await ketcher.setMolecule(molecule)
+        if (ketcher) {
+            await ketcher.setMolecule(molecule)
+        }
     }, [ketcher, molecule])
 
     const handleApply = useCallback(async () => {
-        const smile = await ketcher.getSmiles();
-        setMolecule(smile);
-        Streamlit.setComponentValue(smile);
+        if (ketcher) {
+            const smile = await ketcher.getSmiles();
+            setMolecule(smile);
+            Streamlit.setComponentValue(smile);
+        }
     }, [ketcher])
 
-    const handleKetcherInit = useCallback((ketcher) => {
+    const handleKetcherInit = useCallback((ketcher: Ketcher) => {
         setKetcher(ketcher);
         if (molecule) {
             ketcher.setMolecule(molecule)
@@ -37,6 +47,7 @@ const MyComponent = function (props) {
 
     return (
         <div ref={editorRef}>
+            <div><pre>{JSON.stringify(theme, null, 2)}</pre></div>
             <Suspense fallback={<LoadingPlaceholder height={props.args['height']}>Loading...</LoadingPlaceholder>}>
                 <StreamlitKetcherEditor
                     height={props.args['height']}
@@ -45,10 +56,10 @@ const MyComponent = function (props) {
                 />
             </Suspense>
             <ButtonContainer>
-                <Button theme={theme} onClick={handleApply}
+                <Button theme={theme!} onClick={handleApply}
                         disabled={!ketcher}>Apply
                 </Button>
-                <Button theme={theme} onClick={handleReset}
+                <Button theme={theme!} onClick={handleReset}
                         disabled={!ketcher}>Reset
                 </Button>
             </ButtonContainer>
