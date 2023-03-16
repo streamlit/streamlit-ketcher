@@ -25,6 +25,7 @@ jobs:
       with:
         cache: 'yarn'
         node-version-file: '.nvmrc'
+        cache-dependency-path: streamlit_ketcher/frontend/yarn.lock
     - name: Build package
       run: |
         ./dev.py package
