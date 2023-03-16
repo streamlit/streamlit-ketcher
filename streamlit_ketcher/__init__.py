@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 
 import streamlit.components.v1 as components
 
@@ -18,15 +19,16 @@ else:
     _render_component = components.declare_component("streamlit_ketcher", path=str(build_dir))
 
 
-def st_ketcher(molecule, *, height=500, key=None):
+def st_ketcher(value: Optional[str] = '', *, height: int = 500, key: Optional[str] = None):
     """Create a new instance of "my_component".
 
     Parameters
     ----------
-    molecule: str
-        # TODO: Update docstring
+    value: str
+        The text value of this widget when it first renders.
+        Empty string by default.
     height: int
-        The height of the component expressed in pixels.
+        The height of the editor expressed in pixels.
     key: str or None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
@@ -34,13 +36,10 @@ def st_ketcher(molecule, *, height=500, key=None):
 
     Returns
     -------
-    int
-        The number of times the component's "Click Me" button has been clicked.
-        (This is the value passed to `Streamlit.setComponentValue` on the
-        frontend.)
-
+    str
+        The current content of the editor widget.
     """
-    return _render_component(molecule=molecule, height=height, key=key, default=molecule)
+    return _render_component(molecule=value, height=height, key=key, default=value)
 
 
 if _IS_DEV:

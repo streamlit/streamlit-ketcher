@@ -13,7 +13,12 @@ const StreamlitKetcherEditor = React.lazy(
   () => import("./StreamlitKetcherEditor")
 );
 
-interface MyComponentsProps extends ComponentProps {}
+interface MyComponentsProps extends ComponentProps {
+  args: {
+    molecule: string;
+    height: number;
+  };
+}
 
 const MyComponent = function (props: MyComponentsProps) {
   const editorRef = useRef(null);
