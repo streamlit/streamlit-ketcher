@@ -16,7 +16,7 @@ if _IS_DEV:
         url="http://localhost:3000",
     )
 else:
-    build_dir = Path(__file__).parent / "frontend" / "build"
+    build_dir = Path(__file__).parent / "frontend"
     _render_component = components.declare_component("streamlit_ketcher", path=str(build_dir))
 
 

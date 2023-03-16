@@ -1,1 +1,1 @@
-recursive-include streamlit_ketcher/frontend/build *
+recursive-include streamlit_ketcher/frontend *

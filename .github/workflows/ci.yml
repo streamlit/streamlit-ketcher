@@ -28,15 +28,15 @@ jobs:
       with:
         cache: 'yarn'
         node-version-file: '.nvmrc'
-        cache-dependency-path: streamlit_ketcher/frontend/yarn.lock
+        cache-dependency-path: frontend/yarn.lock
 
     - name: Lint javascript code
       run: yarn install
-      working-directory: streamlit_ketcher/frontend/
+      working-directory: frontend/
 
     - name: Lint javascript code
       run: yarn lint
-      working-directory: streamlit_ketcher/frontend/
+      working-directory: frontend/
 
     - name: Build package
       run: |

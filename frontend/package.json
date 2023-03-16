@@ -31,7 +31,7 @@
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
-    "build": "PUBLIC_URL=./ react-scripts build",
+    "build": "PUBLIC_URL=./ BUILD_PATH=../streamlit_ketcher/frontend react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "prettier --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",

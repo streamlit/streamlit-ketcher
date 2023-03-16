@@ -2,16 +2,13 @@
 __pycache__/
 
 # Distribution / packaging
-streamlit_ketcher/frontend/build
+streamlit_ketcher/frontend
 build/
 dist/
 
 # Python Environment
 venv/
 *.egg-info/
-
-# Node libraries
-streamlit_ketcher/frontend/node_modules/
 
 # Jetbrain IDE
 .idea
