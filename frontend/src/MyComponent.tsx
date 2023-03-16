@@ -46,7 +46,6 @@ const MyComponent = function (props: MyComponentsProps) {
     if (!ketcher) {
       return;
     }
-    console.log({moleculeFormat})
     const smile =
       moleculeFormat === FORMAT_SMILES
         ? await ketcher.getSmiles()
