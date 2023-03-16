@@ -12,5 +12,13 @@ export const LoadingPlaceholder = styled.div<LoadingPlaceholderProps>(
     height: `${props.height}px`,
     background: "white",
     color: "#333",
+    position: "absolute",
+    width: "100%",
+    zIndex: 1,
   })
 );
+
+export const EmptySpace = styled.div<LoadingPlaceholderProps>((props) => ({
+  height: `${props.height}px`,
+  width: "100%",
+}));

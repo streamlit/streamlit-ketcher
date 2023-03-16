@@ -4,7 +4,7 @@ import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import "ketcher-react/dist/index.css";
 import useResizeObserver from "@react-hook/resize-observer";
 import { Button, ButtonContainer } from "./Button";
-import { LoadingPlaceholder } from "./LoadingPlaceholder";
+import { EmptySpace, LoadingPlaceholder } from "./LoadingPlaceholder";
 import { ComponentProps } from "streamlit-component-lib/dist/StreamlitReact";
 import { Ketcher } from "ketcher-core";
 import { FixedTheme } from "./Theme";
@@ -28,7 +28,7 @@ const MyComponent = function (props: MyComponentsProps) {
   const editorRef = useRef(null);
   const [ketcher, setKetcher] = useState<Ketcher | null>(null);
   const [molecule, setMolecule] = useState<string>(props.args["molecule"]);
-  const format = props.args["format"];
+  const { format, height } = props.args;
 
   useEffect(() => Streamlit.setFrameHeight());
   useResizeObserver(editorRef, (entry) => Streamlit.setFrameHeight());
@@ -66,13 +66,12 @@ const MyComponent = function (props: MyComponentsProps) {
 
   return (
     <div ref={editorRef}>
-      <Suspense
-        fallback={
-          <LoadingPlaceholder height={props.args["height"]}>
-            Loading...
-          </LoadingPlaceholder>
-        }
-      >
+      {!ketcher && (
+        <LoadingPlaceholder height={props.args["height"]}>
+          Loading...
+        </LoadingPlaceholder>
+      )}
+      <Suspense fallback={<EmptySpace height={height} />}>
         <StreamlitKetcherEditor
           height={props.args["height"]}
           errorHandler={console.error.bind(console)}
