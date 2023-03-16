@@ -1,7 +1,12 @@
 import styled from "@emotion/styled";
 import {transparentize} from "color2k";
+import {FixedTheme} from "./Theme";
 
-export const Button = styled.button(
+interface ButtonProps{
+  theme: FixedTheme
+}
+
+export const Button = styled.button<ButtonProps>(
     ({theme}) => ({
         // StyledBaseButton styles
         display: "inline-flex",
