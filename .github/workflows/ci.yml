@@ -31,6 +31,10 @@ jobs:
         cache-dependency-path: streamlit_ketcher/frontend/yarn.lock
 
     - name: Lint javascript code
+      run: yarn install
+      working-directory: streamlit_ketcher/frontend/
+
+    - name: Lint javascript code
       run: yarn lint
       working-directory: streamlit_ketcher/frontend/
 
