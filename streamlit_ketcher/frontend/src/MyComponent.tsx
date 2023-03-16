@@ -51,9 +51,6 @@ const MyComponent = function (props: MyComponentsProps) {
 
   return (
     <div ref={editorRef}>
-      <div>
-        <pre>{JSON.stringify(theme, null, 2)}</pre>
-      </div>
       <Suspense
         fallback={
           <LoadingPlaceholder height={props.args["height"]}>
