@@ -10,5 +10,7 @@ export const LoadingPlaceholder = styled.div<LoadingPlaceholderProps>(
     justifyContent: "center",
     alignItems: "center",
     height: `${props.height}px`,
+    background: "white",
+    color: "#333",
   })
 );
