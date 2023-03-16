@@ -20,7 +20,7 @@ interface MyComponentsProps extends ComponentProps {
   args: {
     molecule: string;
     height: number;
-    format: typeof FORMAT_SMILES | typeof FORMAT_MOLFILE;
+    molecule_format: typeof FORMAT_SMILES | typeof FORMAT_MOLFILE;
   };
 }
 
@@ -28,7 +28,7 @@ const MyComponent = function (props: MyComponentsProps) {
   const editorRef = useRef(null);
   const [ketcher, setKetcher] = useState<Ketcher | null>(null);
   const [molecule, setMolecule] = useState<string>(props.args["molecule"]);
-  const { format, height } = props.args;
+  const { molecule_format: moleculeFormat, height } = props.args;
 
   useEffect(() => Streamlit.setFrameHeight());
   useResizeObserver(editorRef, (entry) => Streamlit.setFrameHeight());
@@ -46,13 +46,14 @@ const MyComponent = function (props: MyComponentsProps) {
     if (!ketcher) {
       return;
     }
+    console.log({moleculeFormat})
     const smile =
-      format === FORMAT_SMILES
+      moleculeFormat === FORMAT_SMILES
         ? await ketcher.getSmiles()
         : await ketcher.getMolfile();
     setMolecule(smile);
     Streamlit.setComponentValue(smile);
-  }, [ketcher, format]);
+  }, [ketcher, moleculeFormat]);
 
   const handleKetcherInit = useCallback(
     (ketcher: Ketcher) => {
