@@ -47,6 +47,6 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: dist
+        name: WHL file
         path: dist/*.whl
         if-no-files-found: error
