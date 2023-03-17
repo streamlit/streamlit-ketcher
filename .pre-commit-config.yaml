@@ -46,7 +46,7 @@ repos:
           - --autofix
           - --no-sort-keys
           - --indent
-          - "4"
+          - "2"
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.29.0
     hooks:
