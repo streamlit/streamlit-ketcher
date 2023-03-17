@@ -1,52 +1,53 @@
+---
 name: Build WHL package
 
-on:
+on:  # yamllint disable-line rule:truthy
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    
-    env: 
+
+    env:
       PYTHON_VERSION: "3.10"
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
-    - name: Set up Node
-      uses: actions/setup-node@v3
-      with:
-        cache: 'yarn'
-        node-version-file: '.nvmrc'
-        cache-dependency-path: frontend/yarn.lock
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+          node-version-file: '.nvmrc'
+          cache-dependency-path: frontend/yarn.lock
 
-    - name: Create development environment
-      run: ./dev.py py-create-venv
+      - name: Create development environment
+        run: ./dev.py py-create-venv
 
-    - name: Install node dependencies
-      run: yarn install
-      working-directory: frontend/
+      - name: Install node dependencies
+        run: yarn install
+        working-directory: frontend/
 
-    - name: Lint javascript code
-      run: yarn lint
-      working-directory: frontend/
+      - name: Lint javascript code
+        run: yarn lint
+        working-directory: frontend/
 
-    - name: Build package
-      run: ./dev.py package
+      - name: Build package
+        run: ./dev.py package
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: WHL file
-        path: dist/*.whl
-        if-no-files-found: error
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: WHL file
+          path: dist/*.whl
+          if-no-files-found: error
