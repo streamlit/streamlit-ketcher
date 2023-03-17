@@ -30,7 +30,10 @@ jobs:
         node-version-file: '.nvmrc'
         cache-dependency-path: frontend/yarn.lock
 
-    - name: Lint javascript code
+    - name: Create development environment
+      run: ./dev.py py-create-venv
+
+    - name: Install node dependencies
       run: yarn install
       working-directory: frontend/
 
@@ -39,8 +42,7 @@ jobs:
       working-directory: frontend/
 
     - name: Build package
-      run: |
-        ./dev.py package
+      run: ./dev.py package
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
