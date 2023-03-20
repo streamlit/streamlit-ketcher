@@ -56,10 +56,8 @@ repos:
         types: [yaml]
   - repo: local
     hooks:
-      - id: yarn lint
-        name: Check and update common.sql API stubs
-        entry: bash -c "cd frontend; yarn lint"
+      - id: yarn-format
+        name: Run formatted for frontend code
+        entry: ./dev.py js-format
         language: system
         files: ^frontend/src\/.+\.([jt]sx?|s?css)$
-        pass_filenames: false
-        require_serial: true
