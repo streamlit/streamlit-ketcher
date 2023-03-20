@@ -38,7 +38,9 @@ jobs:
         run: ./dev.py py-create-venv
 
       - name: Install node dependencies
-        run: yarn install
+        run: |
+          mkdir -p "$(yarn cache dir)"
+          yarn install
         working-directory: frontend/
 
       - name: Lint javascript code
