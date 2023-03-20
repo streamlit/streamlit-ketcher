@@ -39,8 +39,6 @@ jobs:
 
       - name: Install node dependencies
         run: |
-          set -x;
-          mkdir -p "$(yarn cache dir)"
           yarn install
         working-directory: frontend/
 
@@ -54,6 +52,7 @@ jobs:
       - name: Build package
         run: ./dev.py package
 
+      - run: mkdir -p "$(yarn cache dir)"
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

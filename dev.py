@@ -14,7 +14,7 @@ PYTHON_BIN = VENV_DIRECTORY / "bin" / "python"
 def run_verbose(cmd_args, *args, **kwargs):
     kwargs.setdefault("check", True)
 
-    print(f"$ {shlex.join(cmd_args)}")
+    print(f"$ {shlex.join(cmd_args)}", flush=True)
     subprocess.run(cmd_args, *args, **kwargs)
 
 
