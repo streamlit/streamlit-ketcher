@@ -46,7 +46,7 @@ jobs:
           ./dev.py py-create-venv
           echo "PWD=${PWD}"
           echo "PWD=$(pwd)"
-#          echo "PATH=$PWD/venv/bin/:$PATH" >> "$GITHUB_ENV"
+#          echo "PATH=$PWD/venv/bin:$PATH" >> "$GITHUB_ENV"
 #          ls -lah $PWD/
 #          ls -lah $PWD/venv/
 #          ls -lah $PWD/venv/bin/

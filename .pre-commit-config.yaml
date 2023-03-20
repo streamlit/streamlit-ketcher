@@ -61,3 +61,4 @@ repos:
         entry: ./dev.py js-format
         language: system
         files: ^frontend/src\/.+\.([jt]sx?|s?css)$
+        require_serial: true
