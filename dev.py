@@ -5,7 +5,7 @@ import shlex
 import subprocess
 from pathlib import Path
 
-THIS_DIRECTORY = Path(__file__).parent
+THIS_DIRECTORY = Path(__file__).parent.absolute()
 FRONTEND_DIRECTORY = THIS_DIRECTORY / "frontend"
 VENV_DIRECTORY = THIS_DIRECTORY / "venv"
 PYTHON_BIN = VENV_DIRECTORY / "bin" / "python"
@@ -77,6 +77,14 @@ def cmd_py_distribute(args):
     )
 
 
+def cmd_js_format(args):
+    files = [
+        str(Path(filepath).absolute().relative_to(FRONTEND_DIRECTORY))
+        for filepath in args.files
+    ]
+    run_verbose(["yarn", "prettier", "--write", *files], cwd=FRONTEND_DIRECTORY)
+
+
 def cmd_js_build(args):
     run_verbose(["yarn", "build"], cwd=FRONTEND_DIRECTORY)
 
@@ -99,6 +107,11 @@ def get_parser():
     subparsers.add_parser("js-build", help="Build frontend.").set_defaults(
         func=cmd_js_build
     )
+    js_lint_parser = subparsers.add_parser("js-format", help="Format frontend files")
+    js_lint_parser.add_argument(
+        "files", nargs=argparse.REMAINDER, help="Files to check"
+    )
+    js_lint_parser.set_defaults(func=cmd_js_format)
     subparsers.add_parser("js-test", help="Run unit tests for frontend.").set_defaults(
         func=lambda _: run_verbose(["yarn", "test"], cwd=FRONTEND_DIRECTORY)
     )
