@@ -15,6 +15,7 @@ import {
 import { darkTheme } from "./mocks";
 import { StreamlitKetcherEditorProps } from "./StreamlitKetcherEditor";
 import { Ketcher } from "ketcher-core";
+import { Streamlit } from "streamlit-component-lib";
 
 jest.mock("./StreamlitKetcherEditor", () => {
   let currentMolecule: string | null = null;
@@ -70,16 +71,15 @@ function getProps(props: Partial<MyComponentsProps> = {}): MyComponentsProps {
 
 describe("MyCompoennt", () => {
   beforeAll(() => {
-    jest.spyOn(window.parent, "postMessage");
+    jest.spyOn(Streamlit, "setFrameHeight");
+    jest.spyOn(Streamlit, "setComponentValue");
   });
 
   it("should respect height of component and update height of the parent frame ", () => {
     const props = getProps({ args: getArgs({ height: 8000 }) });
     render(<MyComponent {...props} />);
 
-    expect(
-      jest.mocked(window.parent.postMessage).mock.calls[0][0].type
-    ).toEqual("streamlit:setFrameHeight");
+    expect(jest.mocked(Streamlit.setFrameHeight).mock.calls).toHaveLength(1);
   });
 
   it("component should be disabled initially", () => {
@@ -115,7 +115,7 @@ describe("MyCompoennt", () => {
     expect(queryByText(/StreamlitKetcherEditor/)).not.toBeNull();
   });
 
-  fit("editor should have set molecule after ketcher initialization", async () => {
+  it("editor should have set molecule after ketcher initialization", async () => {
     const props = getProps({ args: getArgs({ molecule: "NEW_MOLECULE" }) });
 
     const { getByRole, queryByText } = render(<MyComponent {...props} />);
@@ -137,7 +137,7 @@ describe("MyCompoennt", () => {
         (getByRole("button", { name: "Apply" }) as HTMLButtonElement).disabled
       ).toEqual(false);
     });
-    expect(queryByText(/molecule="NEW_MOLECULE"/)).not.toBeNull();
+    expect(queryByText(/molecule="USER_MOLECULE"/)).not.toBeNull();
     fireEvent.click(getByRole("button", { name: "Reset" }));
 
     await waitFor(() => {
@@ -145,7 +145,7 @@ describe("MyCompoennt", () => {
     });
   });
 
-  fit.each([
+  it.each([
     [FORMAT_SMILES, "CCO"],
     [FORMAT_MOLFILE, "CCCCC"],
   ])(
@@ -160,7 +160,9 @@ describe("MyCompoennt", () => {
           molecule,
         }),
       });
-      const postMessageMock = jest.mocked(window.parent.postMessage).mock;
+      const setComponentValueMock = jest.mocked(
+        Streamlit.setComponentValue
+      ).mock;
 
       const { getByRole } = render(<MyComponent {...props} />);
       const buttonApply = getByRole("button", {
@@ -169,8 +171,8 @@ describe("MyCompoennt", () => {
       await waitFor(() => expect(buttonApply.disabled).toEqual(false));
       fireEvent.click(buttonApply);
 
-      await waitFor(() => expect(postMessageMock.calls).toHaveLength(1));
-      expect(postMessageMock.calls[0][0].value).toEqual(
+      await waitFor(() => expect(setComponentValueMock.calls).toHaveLength(1));
+      expect(setComponentValueMock.calls[0][0]).toEqual(
         `${moleculeFormat}:${molecule}`
       );
     }

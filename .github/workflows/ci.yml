@@ -1,5 +1,5 @@
 ---
-name: Build WHL package
+name: Continuous Integration
 
 on:  # yamllint disable-line rule:truthy
   push:
