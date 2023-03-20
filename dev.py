@@ -5,7 +5,7 @@ import shlex
 import subprocess
 from pathlib import Path
 
-THIS_DIRECTORY = Path(__file__).parent
+THIS_DIRECTORY = Path(__file__).parent.absolute()
 FRONTEND_DIRECTORY = THIS_DIRECTORY / "frontend"
 VENV_DIRECTORY = THIS_DIRECTORY / "venv"
 PYTHON_BIN = VENV_DIRECTORY / "bin" / "python"
@@ -79,7 +79,8 @@ def cmd_py_distribute(args):
 
 def cmd_js_format(args):
     files = [
-        str(Path(filepath).relative_to(FRONTEND_DIRECTORY)) for filepath in args.files
+        str(Path(filepath).absolute().relative_to(FRONTEND_DIRECTORY))
+        for filepath in args.files
     ]
     run_verbose(["yarn", "prettier", "--write", *files], cwd=FRONTEND_DIRECTORY)
 
