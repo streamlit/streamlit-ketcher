@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 
 THIS_DIRECTORY = Path(__file__).parent
+FRONTEND_DIRECTORY = THIS_DIRECTORY / "frontend"
 VENV_DIRECTORY = THIS_DIRECTORY / "venv"
 PYTHON_BIN = VENV_DIRECTORY / "bin" / "python"
 
@@ -50,6 +51,10 @@ def ensure_environment():
         raise SystemExit("'yarn' is not installed")
 
 
+def ensure_js_modules_installed():
+    run_verbose(["yarn", "install"], cwd=FRONTEND_DIRECTORY)
+
+
 def cmd_py_create_venv(args):
     run_verbose(["python", "-m", "venv", str(VENV_DIRECTORY)], cwd=THIS_DIRECTORY)
     run_verbose(
@@ -73,8 +78,7 @@ def cmd_py_distribute(args):
 
 
 def cmd_js_build(args):
-    run_verbose(["yarn", "install"], cwd=THIS_DIRECTORY / "frontend")
-    run_verbose(["yarn", "build"], cwd=THIS_DIRECTORY / "frontend")
+    run_verbose(["yarn", "build"], cwd=FRONTEND_DIRECTORY)
 
 
 def cmd_package(args):
@@ -87,17 +91,20 @@ def get_parser():
     subparsers = parser.add_subparsers(dest="subcommand", metavar="COMMAND")
     subparsers.required = True
     subparsers.add_parser(
+        "py-create-venv", help="Create virtual environment for Python."
+    ).set_defaults(func=cmd_py_create_venv)
+    subparsers.add_parser(
         "py-distribution", help="Create Python distribution files in dist/."
     ).set_defaults(func=cmd_py_distribute)
     subparsers.add_parser("js-build", help="Build frontend.").set_defaults(
         func=cmd_js_build
     )
+    subparsers.add_parser("js-test", help="Run unit tests for frontend.").set_defaults(
+        func=lambda _: run_verbose(["yarn", "test"], cwd=FRONTEND_DIRECTORY)
+    )
     subparsers.add_parser(
         "package", help='Build frontend and then run "py-distribution".'
     ).set_defaults(func=cmd_package)
-    subparsers.add_parser(
-        "py-create-venv", help="Create virtual environment for Python."
-    ).set_defaults(func=cmd_py_create_venv)
     return parser
 
 
@@ -105,9 +112,10 @@ def main():
     parser = get_parser()
     args = parser.parse_args()
 
-    print(args.subcommand)
     if args.subcommand != "py-create-venv":
         ensure_environment()
+    if args.subcommand == "package" or args.subcommand.startswith("js-"):
+        ensure_js_modules_installed()
     args.func(args)
 
 

@@ -20,7 +20,7 @@ KetcherEditorWrapper.defaultProps = {
 
 const structServiceProvider = new StandaloneStructServiceProvider();
 
-interface StreamlitKetcherEditorProps
+export interface StreamlitKetcherEditorProps
   extends Omit<
     Config,
     "element" | "staticResourcesUrl" | "structServiceProvider"

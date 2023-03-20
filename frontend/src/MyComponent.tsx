@@ -13,18 +13,20 @@ const StreamlitKetcherEditor = React.lazy(
   () => import("./StreamlitKetcherEditor")
 );
 
-const FORMAT_SMILES = "SMILES";
-const FORMAT_MOLFILE = "MOLFILE";
+export const FORMAT_SMILES = "SMILES";
+export const FORMAT_MOLFILE = "MOLFILE";
 
-interface MyComponentsProps extends ComponentProps {
-  args: {
-    molecule: string;
-    height: number;
-    molecule_format: typeof FORMAT_SMILES | typeof FORMAT_MOLFILE;
-  };
+export interface MyComponentsArgs {
+  molecule: string;
+  height: number;
+  molecule_format: typeof FORMAT_SMILES | typeof FORMAT_MOLFILE;
 }
 
-const MyComponent = function (props: MyComponentsProps) {
+export interface MyComponentsProps extends ComponentProps {
+  args: MyComponentsArgs;
+}
+
+export const MyComponent = function (props: MyComponentsProps) {
   const editorRef = useRef(null);
   const [ketcher, setKetcher] = useState<Ketcher | null>(null);
   const [molecule, setMolecule] = useState<string>(props.args["molecule"]);
@@ -67,11 +69,16 @@ const MyComponent = function (props: MyComponentsProps) {
   return (
     <div ref={editorRef}>
       {!ketcher && (
-        <LoadingPlaceholder height={props.args["height"]}>
+        <LoadingPlaceholder
+          data-testid="loading-placeholder"
+          height={props.args["height"]}
+        >
           Loading...
         </LoadingPlaceholder>
       )}
-      <Suspense fallback={<EmptySpace height={height} />}>
+      <Suspense
+        fallback={<EmptySpace className="EmptySpace" height={height} />}
+      >
         <StreamlitKetcherEditor
           height={props.args["height"]}
           errorHandler={console.error.bind(console)}

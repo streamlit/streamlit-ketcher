@@ -7,6 +7,9 @@ on:  # yamllint disable-line rule:truthy
   pull_request:
     branches: ["main"]
 
+env:
+  FORCE_COLOR: true
+
 jobs:
   build:
 
@@ -41,6 +44,9 @@ jobs:
       - name: Lint javascript code
         run: yarn lint
         working-directory: frontend/
+
+      - name: Test javascript code
+        run: ./dev.py js-test
 
       - name: Build package
         run: ./dev.py package
