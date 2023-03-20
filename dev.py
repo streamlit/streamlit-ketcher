@@ -77,6 +77,14 @@ def cmd_py_distribute(args):
     )
 
 
+def cmd_py_test(args):
+    app_frontend = THIS_DIRECTORY / "streamlit_ketcher" / "frontend"
+    if not app_frontend.exists():
+        app_frontend.mkdir()
+
+    run_verbose([str(PYTHON_BIN), "-m", "pytest", "tests"], cwd=THIS_DIRECTORY)
+
+
 def cmd_js_format(args):
     files = [
         str(Path(filepath).absolute().relative_to(FRONTEND_DIRECTORY))
@@ -104,6 +112,9 @@ def get_parser():
     subparsers.add_parser(
         "py-distribution", help="Create Python distribution files in dist/."
     ).set_defaults(func=cmd_py_distribute)
+    subparsers.add_parser("py-test", help="Run unit tests for python.").set_defaults(
+        func=cmd_py_test
+    )
     subparsers.add_parser("js-build", help="Build frontend.").set_defaults(
         func=cmd_js_build
     )
