@@ -44,10 +44,10 @@ jobs:
         run: |
           set -x;
           ./dev.py py-create-venv
-          echo "PATH=$CWD/venv/bin/:$PATH" >> "$GITHUB_ENV"
-          ls -lah $CWD/
-          ls -lah $CWD/venv/
-          ls -lah $CWD/venv/bin/
+          echo "PATH=$PWD/venv/bin/:$PATH" >> "$GITHUB_ENV"
+          ls -lah $PWD/
+          ls -lah $PWD/venv/
+          ls -lah $PWD/venv/bin/
 
       - name: Run pre-commit
         run: pre-commit run --show-diff-on-failure --color=always --all-files
