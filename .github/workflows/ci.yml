@@ -51,6 +51,9 @@ jobs:
       - name: Test javascript code
         run: ./dev.py js-test
 
+      - name: Test python code
+        run: ./dev.py py-test
+
       - name: Build package
         run: ./dev.py package
 

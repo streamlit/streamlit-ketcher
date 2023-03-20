@@ -104,6 +104,11 @@ def get_parser():
     subparsers.add_parser(
         "py-distribution", help="Create Python distribution files in dist/."
     ).set_defaults(func=cmd_py_distribute)
+    subparsers.add_parser("py-test", help="Run unit tests for python.").set_defaults(
+        func=lambda _: run_verbose(
+            [str(PYTHON_BIN), "-m", "pytest", "tests"], cwd=THIS_DIRECTORY
+        )
+    )
     subparsers.add_parser("js-build", help="Build frontend.").set_defaults(
         func=cmd_js_build
     )
