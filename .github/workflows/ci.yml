@@ -58,6 +58,10 @@ jobs:
 
       - name: Ensure browsers are installed
         run: |
+          set -x;
+          export
+          cat venv/bin/activate
+          source ./venv/bin/activate
           ./venv/bin/playwright install --with-deps
           python -m playwright install --with-deps
 
