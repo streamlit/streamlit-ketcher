@@ -42,13 +42,8 @@ jobs:
 
       - name: Create development environment
         run: |
-          set -x;
           ./dev.py py-create-venv
-          cat ./venv/bin/activate
-          env > before.txt
           source ./venv/bin/activate
-          env > after.txt
-          diff before.txt after.txt || true
           echo "PATH=$PATH" >> "$GITHUB_ENV"
           echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> "$GITHUB_ENV"
           echo "Installed dependencies:"
