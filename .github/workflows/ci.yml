@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python ${{ env.PYTHON_VERSION }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
@@ -43,7 +43,11 @@ jobs:
       - name: Create development environment
         run: |
           ./dev.py py-create-venv
-          echo "PATH=$PWD/venv/bin:$PATH" >> "$GITHUB_ENV"
+          source ./venv/bin/activate
+          echo "PATH=$PATH" >> "$GITHUB_ENV"
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> "$GITHUB_ENV"
+          echo "Installed dependencies:"
+          pip freeze
 
       - name: Run pre-commit
         run: pre-commit run --show-diff-on-failure --color=always --all-files
@@ -54,12 +58,29 @@ jobs:
       - name: Test python code
         run: ./dev.py py-test
 
+      - name: Ensure browsers are installed
+        run: playwright install --with-deps
+
+      - name: Build frontend
+        run: ./dev.py js-build
+
+      - name: Run e2e tests
+        run: pytest e2e
+
+      - name: Upload snapshots
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: Snapshots
+          path: e2e/__snapshots__
+          if-no-files-found: error
+
       - name: Build package
         run: ./dev.py package
 
       - run: mkdir -p "$(yarn cache dir)"
 
-      - name: Upload artifact
+      - name: Upload WHL file
         uses: actions/upload-artifact@v3
         with:
           name: WHL file
