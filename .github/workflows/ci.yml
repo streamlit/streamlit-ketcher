@@ -57,7 +57,9 @@ jobs:
 #        run: ./dev.py py-test
 
       - name: Ensure browsers are installed
-        run: python -m playwright install --with-deps
+        run: |
+          ./venv/bin/playwright install --with-deps
+          python -m playwright install --with-deps
 
       - name: Build frontend
         run: ./dev.py js-build
