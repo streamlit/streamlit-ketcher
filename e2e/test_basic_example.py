@@ -107,6 +107,12 @@ def test_should_render_user_input(page: Page, streamlit_app: str, assert_snapsho
     # Clear output
     frame_0.get_by_role("button", name="Reset").click()
     frame_0.get_by_role("button", name="Apply").click()
+    frame_0.get_by_role("button", name="Reset").click()
+    frame_0.get_by_role("button", name="Apply").click()
+    frame_0.get_by_role("button", name="Reset").click()
+    frame_0.get_by_role("button", name="Apply").click()
+    frame_0.get_by_role("button", name="Reset").click()
+    frame_0.get_by_role("button", name="Apply").click()
 
     # Assert output is empty
     expect(page.get_by_text("Smile code")).to_have_text("Smile code: ````")

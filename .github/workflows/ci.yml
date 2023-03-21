@@ -73,8 +73,9 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
+        if: ${{ always() }}
         with:
-          name: WHL file
+          name: Snapshots
           path: e2e/__snapshots__
           if-no-files-found: error
 
