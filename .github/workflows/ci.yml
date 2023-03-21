@@ -54,6 +54,22 @@ jobs:
       - name: Test python code
         run: ./dev.py py-test
 
+      - name: Ensure browsers are installed
+        run: python -m playwright install --with-deps
+
+      - name: Build frontend
+        run: ./dev.py js-build
+
+      - name: Run your tests
+        run: pytest e2e --update-snapshots
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: WHL file
+          path: e2e/__snapshots__
+          if-no-files-found: error
+
       - name: Build package
         run: ./dev.py package
 

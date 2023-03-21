@@ -103,7 +103,7 @@ def cmd_package(args):
 
 
 def get_parser():
-    parser = argparse.ArgumentParser(prog="airflow")
+    parser = argparse.ArgumentParser(prog=__file__)
     subparsers = parser.add_subparsers(dest="subcommand", metavar="COMMAND")
     subparsers.required = True
     subparsers.add_parser(
