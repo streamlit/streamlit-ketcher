@@ -5,7 +5,6 @@ point_of_contact: sfc-gh-kbregula
 # production: whether this repository meets the criteria for being
 # "production",
 # for ciriteria, see:
-# 
 # https://snowflakecomputing.atlassian.net/wiki/spaces/CLO/pages/2239988967/Production+Repository+Criteria 
 production: true
 
@@ -19,7 +18,7 @@ modified: false
 
 # release_branches: list of release branch patterns, exact matches or
 # regex is acceptable
-release_branches: 
+release_branches:
   - main
 
 # code_owners_file_present: whether there is a CODEOWNERS file in
