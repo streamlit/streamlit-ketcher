@@ -107,10 +107,12 @@ def test_should_render_user_input(page: Page, streamlit_app: str, assert_snapsho
 
     # Clear output
     frame_0.get_by_role("button", name="Reset").click()
+    page.get_by_role("img", name="Running...").is_hidden()
     # Wait for the value to be set in Ketcher.
     frame_0.get_by_role("button", name="Rectangle Selection (Esc)").click()
     # Pass value to Streamlit
     frame_0.get_by_role("button", name="Apply").click()
+    page.get_by_role("img", name="Running...").is_hidden()
 
     # Assert output is empty
     expect(page.get_by_text("Smile code")).to_have_text("Smile code: ````")
