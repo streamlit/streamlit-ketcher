@@ -32,14 +32,14 @@ repos:
         name: Require literal syntax when initializing Python builtin types
       - id: end-of-file-fixer
         name: Make sure that there is an empty line at the end
+        exclude: ^NOTICES$
       - id: mixed-line-ending
         name: Detect if mixed line ending is used (\r vs. \r\n)
-        exclude: ^airflow/_vendor/
       - id: check-executables-have-shebangs
         name: Check that executables have shebang
-        exclude: ^airflow/_vendor/
       - id: trailing-whitespace
         name: Remove trailing whitespace at end of line
+        exclude: ^NOTICES$
       - id: pretty-format-json
         name: Format JSON files
         args:
@@ -62,3 +62,9 @@ repos:
         language: system
         files: ^frontend/src\/.+\.([jt]sx?|s?css)$
         require_serial: true
+      - id: license-disclaimer
+        name: Generate NOTICES
+        language: system
+        entry: bash -c "cd frontend; yarn license-disclaimer"
+        files: '(package\.json|yarn\.lock)$'
+        pass_filenames: false
