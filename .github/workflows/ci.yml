@@ -78,6 +78,9 @@ jobs:
       - name: Build package
         run: ./dev.py package
 
+      - name: Verify package
+        run: tar -tvf dist/streamlit_ketcher-*.tar.gz | grep NOTICES
+
       - run: mkdir -p "$(yarn cache dir)"
 
       - name: Upload WHL file
