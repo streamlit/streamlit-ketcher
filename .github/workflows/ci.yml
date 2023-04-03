@@ -59,7 +59,7 @@ jobs:
         run: ./dev.py py-test
 
       - name: Ensure browsers are installed
-        run: playwright install --with-deps
+        run: playwright install chromium --with-deps
 
       - name: Build frontend
         run: ./dev.py js-build

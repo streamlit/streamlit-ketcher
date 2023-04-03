@@ -1,3 +1,4 @@
+---
 # point_of_contact: the owner of this repository, can be a GitHub user or
 # GitHub team
 point_of_contact: sfc-gh-kbregula
@@ -5,7 +6,7 @@ point_of_contact: sfc-gh-kbregula
 # production: whether this repository meets the criteria for being
 # "production",
 # for ciriteria, see:
-# https://snowflakecomputing.atlassian.net/wiki/spaces/CLO/pages/2239988967/Production+Repository+Criteria 
+# https://snowflakecomputing.atlassian.net/wiki/spaces/CLO/pages/2239988967/Production+Repository+Criteria
 production: true
 
 # distributed: whether any source code in this repository is distributed
@@ -34,4 +35,4 @@ jira_area: Orphaned
 
 # audit_in_scope: whether this repository is included in
 # scope for audits or certifications (SOX, SOC, ISO, Fedramp etc.)
-audit_in_scope: False
+audit_in_scope: false
