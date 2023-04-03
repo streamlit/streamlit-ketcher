@@ -5,6 +5,7 @@ point_of_contact: sfc-gh-kbregula
 # production: whether this repository meets the criteria for being
 # "production",
 # for ciriteria, see:
+# 
 # https://snowflakecomputing.atlassian.net/wiki/spaces/CLO/pages/2239988967/Production+Repository+Criteria 
 production: true
 
@@ -13,7 +14,7 @@ production: true
 distributed: true
 
 # modified: whether any open source dependencies in this repository have
-# been modified 
+# been modified
 modified: false
 
 # release_branches: list of release branch patterns, exact matches or
@@ -35,4 +36,3 @@ jira_area: Orphaned
 # audit_in_scope: whether this repository is included in
 # scope for audits or certifications (SOX, SOC, ISO, Fedramp etc.)
 audit_in_scope: False
-
