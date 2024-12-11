@@ -65,14 +65,14 @@ jobs:
         run: ./dev.py js-build
 
       - name: Run e2e tests
-        run: pytest e2e
+        run: pytest e2e --screenshot only-on-failure --output ./test-results/
 
       - name: Upload snapshots
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: Snapshots
-          path: e2e/__snapshots__
+          path: e2e/test-results
           if-no-files-found: error
 
       - name: Build package
