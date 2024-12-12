@@ -69,6 +69,7 @@ jobs:
           pytest e2e
           --video retain-on-failure
           --screenshot only-on-failure
+          --update-snapshots
           --output ./test-results/
           -r aR
           -v
