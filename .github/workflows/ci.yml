@@ -65,7 +65,7 @@ jobs:
         run: ./dev.py js-build
 
       - name: Run e2e tests
-        run: pytest e2e --browser webkit --video retain-on-failure --screenshot only-on-failure --output ./test-results/ -n auto -r aR -v
+        run: pytest e2e --video retain-on-failure --screenshot only-on-failure --output ./test-results/ -n auto -r aR -v
 
       - name: Upload snapshots
         uses: actions/upload-artifact@v4
