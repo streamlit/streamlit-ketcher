@@ -70,7 +70,6 @@ jobs:
           --video retain-on-failure
           --screenshot only-on-failure
           --output ./test-results/
-          -n auto
           -r aR
           -v
 
